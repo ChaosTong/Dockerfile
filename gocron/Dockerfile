@@ -6,8 +6,14 @@ ENV GOCRON_VERSION 1.5.3
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories 
 
+RUN apk add --no-cache bash \
+    bash-doc \
+    bash-completion
+
 RUN apk add -U tzdata && \
-    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && rm -rf /var/cache/apk/* \
+    && /bin/bash
 
 RUN addgroup -S app && \
     adduser -S -g app app  
@@ -39,4 +45,4 @@ RUN cd /app \
 
 USER app
 
-# ENTRYPOINT ./gocron-node && ./gocron web
+# ENTRYPOINT ./gocron web
