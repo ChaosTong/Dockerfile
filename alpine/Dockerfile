@@ -6,7 +6,12 @@ COPY . /data
 # Change working directory
 WORKDIR /data
 
+EXPOSE 22
+
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+
+RUN apk add -U tzdata && \
+    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 RUN apk --update add --no-cache zsh && \
     apk add --no-cache git && \
